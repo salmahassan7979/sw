@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">sw_1</string>
+    <string name="select_country">select country</string>
+    <string name="place">place</string>
+    <string name="country">country </string>
+    <string name="email">username </string>
+    <string name="pass">password </string>
+    <string name="signgmail">Sign IN Gmail </string>
+    <string name="login">login </string>
 </resources>

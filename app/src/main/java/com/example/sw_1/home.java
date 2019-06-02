@@ -1,5 +1,6 @@
 package com.example.sw_1;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,14 +16,67 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.WorkerThread;
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentChange.Type;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.MetadataChanges;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.Query.Direction;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.ServerTimestamp;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Source;
+import com.google.firebase.firestore.Transaction;
+import com.google.firebase.firestore.WriteBatch;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class home extends AppCompatActivity implements feedadapter.OnItemClickListener{
     private  static final String TAG="home";
@@ -36,27 +90,29 @@ public class home extends AppCompatActivity implements feedadapter.OnItemClickLi
     private RequestQueue mRequestQueue;
     private FirebaseDatabase mDatabase;
     private DatabaseReference xDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
 // ...
-        mDatabase = FirebaseDatabase.getInstance();
+        //mDatabase = FirebaseDatabase.getInstance();
+      //  FirebaseFirestore db = FirebaseFirestore.getInstance();
         //xdatabase hwa el object bta3y ely 3amlah f el data w b4of el field ely gwah
-        xDatabase = mDatabase.getReference("https://software-28893.firebaseio.com/");
-        xDatabase.setValue("Hello, World!");
-
+       // xDatabase = mDatabase.getReference().child("name");
+        //  xDatabase.setValue("Hello, World!");
+        // DocumentReference docRef = db.collection("country").document("m91AVZhwtFeh5ZtkZui7\n");
         // ReadData readData=  new ReadData();
-      //  xDatabase.addValueEventListener(readData);
-        button = findViewById(R.id.bot1);
+        //  xDatabase.addValueEventListener(readData);
+        button = findViewById(R.id.user);
         mRecyclerView = findViewById(R.id.recyclehome);
-        mtextView=findViewById(R.id.textView);
+        mtextView = findViewById(R.id.textView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recycleview = new ArrayList<>();
-      //  view = new ArrayList<>();
+        //  view = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(this);
         spinner = findViewById(R.id.spinner1);
         // button = findViewById(R.id.selectcategory);
@@ -116,25 +172,25 @@ public class home extends AppCompatActivity implements feedadapter.OnItemClickLi
                 // TODO Auto-generated method stub
             }
         });
+        // DocumentReference docRef = db.collection("country").document("name");
 
+       /* db.collection("country")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                mtextView.setText(document.getId() + document.getData());
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                            mtextView.setText("error");
+                        }
+                    }
+                });*/
 
-        xDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                mtextView.setText(value);
-                Log.d(TAG, "Value is: " + value);
-                mtextView.setText(dataSnapshot.getValue(String.class));
-            }
-
-           @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-               Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
     }
 
    /* public class ReadData implements ValueEventListener{
@@ -150,11 +206,11 @@ public class home extends AppCompatActivity implements feedadapter.OnItemClickLi
 
         }
     }*/
-   @Override
-    public void onItemClick(int position) {
-       // Intent detailIntent = new Intent(this, DetailActivity.class);
-        // getdetails clickedItem = view.get(position);
-        recycleviewfeed clickedItem = recycleview.get(position);
+        @Override
+        public void onItemClick ( int position){
+            // Intent detailIntent = new Intent(this, DetailActivity.class);
+            // getdetails clickedItem = view.get(position);
+            recycleviewfeed clickedItem = recycleview.get(position);
 
         /*detailIntent.putExtra(EXTRA_URL, clickedItem.getImageUrl());
         detailIntent.putExtra(EXTRA_CREATOR, clickedItem.getservice());
@@ -168,7 +224,7 @@ public class home extends AppCompatActivity implements feedadapter.OnItemClickLi
 
 
         startActivity(detailIntent);*/
-    }
+        }
    /* public void OpenActivity_arts(){
         //// Intent intent= new Intent(this,activity_.class);
         Intent intent= new Intent (this,Arts.class);
@@ -176,7 +232,8 @@ public class home extends AppCompatActivity implements feedadapter.OnItemClickLi
 
     }
     public void openActivity_carpenter(){
-        //// Intent intent= new Intent(this,activity_.class);
+        //// Intent intent= new Intent(this,activity
+        _.class);
         Intent intent= new Intent (this,Carpenter.class);
         startActivity( intent);
 
@@ -196,5 +253,5 @@ public class home extends AppCompatActivity implements feedadapter.OnItemClickLi
         startActivity( intent);
     }*/
 
-}
 
+    }

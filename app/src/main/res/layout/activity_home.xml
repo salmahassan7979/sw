@@ -27,35 +27,61 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/spinner1"
-                android:layout_width="309dp"
-                android:layout_height="16dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="90dp"
-                android:layout_marginRight="100dp"
-                android:layout_weight="1"
-                android:prompt="@string/select_country" />
-
         <ImageButton
-            android:id="@+id/bot1"
-            style="@android:style/Widget.ImageButton"
-            android:layout_width="85dp"
-            android:layout_height="28dp"
+            android:id="@+id/user"
+            android:layout_width="88dp"
+            android:layout_height="83dp"
+
+            android:background="@drawable/ic_launcher_foreground"
+            android:scaleType="fitEnd"
+            android:src="@drawable/users" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="300dp"
+            android:layout_height="484dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
             android:layout_weight="1"
-            android:background="@drawable/back"
-            android:scaleType="fitStart"
-            app:srcCompat="@drawable/users" />
+            android:prompt="@string/select_country"
+            android:spinnerMode="dropdown" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="61dp"
+
+
+                android:orientation="horizontal">
+
+
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="309dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
+                    android:layout_weight="1"
+                    android:prompt="@string/select_country"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclehome"
-            android:layout_width="360dp"
-            android:layout_height="677dp"
+            android:layout_width="match_parent"
+            android:layout_height="666dp">
 
-        />
+        </android.support.v7.widget.RecyclerView>
 
-        </LinearLayout>
 
-    </RelativeLayout>
-
+    </LinearLayout>
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.sw_1;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void act(){
-        Intent intent= new Intent(this,home.class);
+        Intent intent= new Intent(this,MapsActivity.class);
+        intent.setData(Uri.parse("geo:30.0205786,31.3739956?z=15"));
         startActivity( intent);
     }
 }

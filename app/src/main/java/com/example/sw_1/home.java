@@ -1,5 +1,5 @@
 package com.example.sw_1;
-
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -88,24 +88,14 @@ public class home extends AppCompatActivity implements feedadapter.OnItemClickLi
     private ArrayList<recycleviewfeed> recycleview;
   //  private ArrayList<getdetails> view;
     private RequestQueue mRequestQueue;
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference xDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-// ...
-        //mDatabase = FirebaseDatabase.getInstance();
-      //  FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //xdatabase hwa el object bta3y ely 3amlah f el data w b4of el field ely gwah
-       // xDatabase = mDatabase.getReference().child("name");
-        //  xDatabase.setValue("Hello, World!");
-        // DocumentReference docRef = db.collection("country").document("m91AVZhwtFeh5ZtkZui7\n");
-        // ReadData readData=  new ReadData();
-        //  xDatabase.addValueEventListener(readData);
-        button = findViewById(R.id.user);
+       button = findViewById(R.id.user);
         mRecyclerView = findViewById(R.id.recyclehome);
         mtextView = findViewById(R.id.textView);
         mRecyclerView.setHasFixedSize(true);
